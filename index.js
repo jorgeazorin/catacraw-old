@@ -4,7 +4,20 @@ const mongoose = require("mongoose");
 
 const username = "jorgeazorin";
 const password = "Ba2xKCO6CPWZXZWQ";
+const SocksAgent = require('axios-socks5-agent')
 
+const { httpAgent, httpsAgent } = SocksAgent({
+    agentOptions: {
+      keepAlive: true,
+    },
+    // socks5
+    host: '127.0.0.1',
+    port: 9050,
+    // socks5 auth
+    //username: 'admin',
+    //password: 'pass1234',
+  })
+  
 mongoose.connect(
     //`mongodb://${username}:${password}@127.0.0.1/catast?retryWrites=true&w=majority`, 
     `mongodb+srv://${username}:${password}@cluster0.0crqf.mongodb.net/catast`,
@@ -44,6 +57,7 @@ const DatosSchema = new mongoose.Schema({
 });
 const Datos = mongoose.model("Datos", DatosSchema);
 const proxy = {
+    //httpAgent, httpsAgent,
     // `proxy` means the request actually goes to the server listening
     // on localhost:3000, but the request says it is meant for
     // 'http://httpbin.org/get?answer=42'
@@ -57,21 +71,25 @@ const proxy = {
     }
 };
 
-for (let k = 0; k<40; k++) {
-    new Promise(() => start(k))
-}
+getProvincias().then((provincias) => {
+    console.log(provincias)
+
+    for (let k = 0; k<10; k++) {
+        new Promise(() => start(k, provincias))
+    }
+});
+
 
 let totalCount = 0;
 
-async function start(k) {
-    const provincias = await getProvincias();
-    //console.log(provincias)
+async function start(k, provincias) {
+
     while (provincias) {
-        await new Promise(resolve => setTimeout(resolve, 10000/(k+1)));
+        //await new Promise(resolve => setTimeout(resolve, 10000/(k+1)));
         try {
             const provincia = getRandomItem(provincias);
             const municipios = await getMunicipios(provincia);
-            for (let i = 0; i < municipios.length; i++) {
+            for (let i = municipios.length - 1; i >= 0; i--) {
                 const municipio = municipios[i];
                 console.log("-----  munpar -----", { provincia, municipio });
                 let lastPolFound = 1;
@@ -87,10 +105,10 @@ async function start(k) {
                                 console.log('total:', totalCount, "new", provincia, municipio, pol, par );
                                 let data = null;
                                 try {
-                                    await new Promise(resolve => setTimeout(resolve, 500));
+                                    //await new Promise(resolve => setTimeout(resolve, 500));
                                     data = await getPolPar(provincia, municipio, pol, par);
 
-                                    if (!data || !data.consulta_dnp || !data.consulta_dnp.bico) {
+                                    if (!data || !data.consulta_dnp || data.consulta_dnp.lerr) {
                                         parErr++;
                                         if (parErr > 5) {
                                             break;
