@@ -90,7 +90,7 @@ async function start(k) {
                                     await new Promise(resolve => setTimeout(resolve, 500));
                                     data = await getPolPar(provincia, municipio, pol, par);
 
-                                    if (!data || !data?.consulta_dnp?.bico) {
+                                    if (!data || !data.consulta_dnp || !data.consulta_dnp.bico) {
                                         parErr++;
                                         if (parErr > 5) {
                                             break;
