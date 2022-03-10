@@ -72,25 +72,30 @@ const proxy = {
 };
 
 getProvincias().then((provincias) => {
-    console.log(provincias)
-
-    for (let k = 0; k<10; k++) {
-        new Promise(() => start(k, provincias))
+    //console.log(provincias)
+    const total = 1
+    for (let k = 0; k<total; k++) {
+        //new Promise(() => start(k, total, provincias))
     }
+    start(null, null, provincias);
 });
 
 
 let totalCount = 0;
 
-async function start(k, provincias) {
+async function start(k, total, provincias) {
+    const provincia = 'ALACANT';//getRandomItem(provincias);
+    const municipios = await getMunicipios(provincia);
 
-    while (provincias) {
+    //while (provincias) {
+        console.log(provincias)
         //await new Promise(resolve => setTimeout(resolve, 10000/(k+1)));
         try {
-            const provincia = getRandomItem(provincias);
-            const municipios = await getMunicipios(provincia);
-            for (let i = municipios.length - 1; i >= 0; i--) {
-                const municipio = municipios[i];
+
+            console.log(municipios);
+            municipios.map(async municipio => {
+            //for (let i = 1; i <= Math.floor(municipios.length/total); i++) {
+                //const municipio = municipios[k*i];
                 console.log("-----  munpar -----", { provincia, municipio });
                 let lastPolFound = 1;
                 for (let pol = 1; pol <= 200; pol++) {
@@ -105,7 +110,7 @@ async function start(k, provincias) {
                                 console.log('total:', totalCount, "new", provincia, municipio, pol, par );
                                 let data = null;
                                 try {
-                                    //await new Promise(resolve => setTimeout(resolve, 500));
+                                    await new Promise(resolve => setTimeout(resolve, randomIntFromInterval(500, 1500)));
                                     data = await getPolPar(provincia, municipio, pol, par);
 
                                     if (!data || !data.consulta_dnp || data.consulta_dnp.lerr) {
@@ -133,11 +138,11 @@ async function start(k, provincias) {
                         }
                     }
                 }
-            }
+            })
         } catch (error) {
             console.log(error)
         }
-    }
+    //}
 }
 
 function findInBD({ provincia, municipio, pol, par }, action) {
@@ -183,3 +188,7 @@ function getRandomItem(set) {
 }
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+
+function randomIntFromInterval(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
