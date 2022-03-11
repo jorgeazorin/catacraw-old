@@ -104,7 +104,7 @@ async function start(k, total, provincias) {
                         break;
                     }
                     let parErr = 0;
-                    for (let par = 1; par <= 200; par++) {
+                    for (let par = 1; par <= 500; par++) {
                         try {
                             const dato = await findInBD({ provincia, municipio, pol, par });
                             if (!dato) {
