@@ -99,7 +99,7 @@ async function start(k, total, provincias) {
             //for (let i = 1; i <= Math.floor(municipios.length/total); i++) {
                 //const municipio = municipios[k*i];
                 console.log("-----  munpar -----", { provincia, municipio });
-                let lastPolFound = 1;
+                let lastPolFound = 14;
                 for (let pol = 14; pol <= 200; pol++) {
                     if (pol - lastPolFound > 5) {
                         pol=1;
