@@ -21,7 +21,7 @@ const { httpAgent, httpsAgent } = SocksAgent({
 mongoose.connect(
     //`mongodb://${username}:${password}@127.0.0.1/catast?retryWrites=true&w=majority`, 
     //`mongodb+srv://${username}:${password}@cluster0.0crqf.mongodb.net/catast`,
-    `mongodb://${username}:${password}@cluster0.0crqf.mongodb.net/catast?authSource=admin`,
+    `mongodb://${username}:${password}@127.0.0.1/catast?authSource=admin`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
