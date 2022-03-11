@@ -2,8 +2,8 @@ const axios = require('axios')
 var xml2js = require('xml2js');
 const mongoose = require("mongoose");
 
-const username = "jorgeazorin";
-const password = "Ba2xKCO6CPWZXZWQ";
+const username = "jorge";
+const password = "Y7aR37gl+";
 const SocksAgent = require('axios-socks5-agent')
 
 const { httpAgent, httpsAgent } = SocksAgent({
@@ -20,7 +20,8 @@ const { httpAgent, httpsAgent } = SocksAgent({
   
 mongoose.connect(
     //`mongodb://${username}:${password}@127.0.0.1/catast?retryWrites=true&w=majority`, 
-    `mongodb+srv://${username}:${password}@cluster0.0crqf.mongodb.net/catast`,
+    //`mongodb+srv://${username}:${password}@cluster0.0crqf.mongodb.net/catast`,
+    `mongodb://${username}:${password}@cluster0.0crqf.mongodb.net/catast?authSource=admin`,
     {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -84,7 +85,7 @@ getProvincias().then((provincias) => {
 let totalCount = 0;
 
 async function start(k, total, provincias) {
-    const provincia = 'ALACANT';//getRandomItem(provincias);
+    const provincia = 'MURCIA';//getRandomItem(provincias);
     const municipios = await getMunicipios(provincia);
 
     //while (provincias) {
@@ -127,6 +128,7 @@ async function start(k, total, provincias) {
                                     dato.save();
                                 } catch (error) {
                                     console.log("Ups hour")
+                                    par--;
                                     //await new Promise(resolve => setTimeout(resolve, 3600000));
                                 }
                             } else {
