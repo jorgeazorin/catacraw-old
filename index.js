@@ -100,7 +100,7 @@ async function start(k, total, provincias) {
                 //const municipio = municipios[k*i];
                 console.log("-----  munpar -----", { provincia, municipio });
                 let lastPolFound = 1;
-                for (let pol = randomIntFromInterval(1,15); pol <= 200; pol++) {
+                for (let pol = 14; pol <= 200; pol++) {
                     if (pol - lastPolFound > 5) {
                         pol=1;
                     }
