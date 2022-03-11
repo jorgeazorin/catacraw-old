@@ -85,7 +85,7 @@ getProvincias().then((provincias) => {
 let totalCount = 0;
 
 async function start(k, total, provincias) {
-    const provincia = 'MURCIA';//getRandomItem(provincias);
+    const provincia = 'ALACANT';//getRandomItem(provincias);
     const municipios = await getMunicipios(provincia);
 
     //while (provincias) {
