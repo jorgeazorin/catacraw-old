@@ -106,11 +106,12 @@ async function start(k, total, provincias) {
                     }
                     let parErr = 0;
                     for (let par = 1; par <= 500; par++) {
+                        console.log('totalTotal', totalTotalCount,' |  total:', totalCount, "  |  ", provincia, municipio, pol, par );
+
                         try {
                             const dato = await findInBD({ provincia, municipio, pol, par });
                             totalTotalCount++;
                             if (!dato) {
-                                console.log('totalTotal', totalTotalCount,' |  total:', totalCount, "  |  ", provincia, municipio, pol, par );
                                 let data = null;
                                 try {
                                     await new Promise(resolve => setTimeout(resolve, randomIntFromInterval(500, 1500)));
