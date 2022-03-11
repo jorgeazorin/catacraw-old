@@ -83,6 +83,7 @@ getProvincias().then((provincias) => {
 
 
 let totalCount = 0;
+let totalTotalCount = 0;
 
 async function start(k, total, provincias) {
     const provincia = 'ALACANT';//getRandomItem(provincias);
@@ -107,8 +108,9 @@ async function start(k, total, provincias) {
                     for (let par = 1; par <= 500; par++) {
                         try {
                             const dato = await findInBD({ provincia, municipio, pol, par });
+                            totalTotalCount++;
                             if (!dato) {
-                                console.log('total:', totalCount, "new", provincia, municipio, pol, par );
+                                console.log('totalTotal', totalTotalCount,' |  total:', totalCount, "  |  ", provincia, municipio, pol, par );
                                 let data = null;
                                 try {
                                     await new Promise(resolve => setTimeout(resolve, randomIntFromInterval(500, 1500)));
